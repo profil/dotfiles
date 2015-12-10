@@ -1,0 +1,129 @@
+#!/bin/sh
+
+if [ $(pgrep -cx panel) -gt 1 ] ; then
+	printf "%s\n" "The panel is already running." >&2
+	exit 1
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+PANEL_FIFO="/tmp/lemonbar_fifo"
+ICON="-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"
+FONT="-*-lemon-medium-*-*-*-*-*-*-*-m-*-*-*"
+COLOR_BACKGROUND="#ff151515"
+COLOR_FOREGROUND="#ffdddddd"
+COLOR_ICON="#ff7dc1cf"
+COLOR_ACTIVE="#ff7dc1cf"
+COLOR_OCCUPIED="#ff404040"
+COLOR_URGENT="#ffe84f4f"
+
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+bspc config top_padding 10
+bspc control --subscribe > "$PANEL_FIFO" &
+xtitle -sf 'T%s' > "$PANEL_FIFO" &
+stdbuf -oL alsactl monitor | sed -un 's/.*/A/p' > "$PANEL_FIFO" &
+iw event | sed -un 's/.*\(connected\).*/N/p' > "$PANEL_FIFO" &
+
+echo "A" > "$PANEL_FIFO" &
+echo "N" > "$PANEL_FIFO" &
+
+while true ; do
+	date=$(date "+%%{F$COLOR_ACTIVE}%a %b %d%%{F-} %H:%M")
+
+	BAT=`acpi -b | awk '{gsub(/%,/,""); print $4}' | sed 's/%//g'`
+	STATUS=`acpi -b | awk '{gsub(/,/,""); print $3}'`
+
+	if [[ $STATUS != "Discharging" ]]; then
+		battery=""
+	elif [[ $BAT -lt 10 ]]; then
+		battery="%{F$COLOR_URGENT}%{F-}"
+		BAT="%{F$COLOR_URGENT}$BAT%{F-}"
+	elif [[ $BAT -lt 40 ]]; then
+		battery=""
+	elif [[ $BAT -lt 70 ]]; then
+		battery=""
+	else
+		battery=""
+	fi
+
+
+	printf "S%s | %s\n" \
+		"%{F$COLOR_ICON}$battery%{F-} $BAT%" \
+		"${date}" > "$PANEL_FIFO"
+	sleep 30s ;
+done &
+
+cat "$PANEL_FIFO" \
+| while read -r line ; do
+	case $line in
+		S*)
+			sys_infos="${line#?}"
+			;;
+		A*)
+			STATE=`amixer get -M Master | sed -n 's/^.*\[\(o[nf]\+\)]$/\1/p' | uniq`
+			LEVEL=`amixer get -M Master | sed -n 's/^.*\[\([0-9]\+\)%.*$/\1/p' | uniq`
+			if [[ $STATE != "on" ]]; then
+				audio="%{F$COLOR_URGENT}%{F-}"
+			elif [[ $LEVEL -lt 30 ]]; then
+				audio="%{F$COLOR_ICON}%{F-}"
+			else
+				audio="%{F$COLOR_ICON}%{F-}"
+			fi
+			audio="$audio $LEVEL%"
+			;;
+		N*)
+			name="$(iw dev wlp2s0b1 link | sed -n 's/.*SSID: \(.*\)/\1/p')"
+			if [[ -z $name ]] ; then
+				network="%{F$COLOR_ICON}%{F-}"
+			else
+				network="%{F$COLOR_ICON}%{F-} $name"
+			fi
+			;;
+		T*)
+			title="$(xprop -id ${line#?} WM_NAME | sed -un 's/.*"\(.*\)"/\1/p')"
+			;;
+		W*)
+			# bspwm internal state
+			wm_infos=""
+			IFS=':'
+			set -- ${line#?}
+			while [ $# -gt 0 ] ; do
+				item=$1
+				name=${item#?}
+				case $item in
+					[OFU]*)
+						# active desktop
+						wm_infos="${wm_infos}%{F$COLOR_ACTIVE} ${name} %{F-}"
+						;;
+					o*)
+						# inactive but occupied desktop
+						wm_infos="${wm_infos}%{B$COLOR_OCCUPIED} ${name} %{B-}"
+						;;
+					f*)
+						# inactive desktop
+						wm_infos="$wm_infos ${name} "
+						;;
+					u*)
+						# urgent desktop
+						wm_infos="$wm_infos %{B$COLOR_URGENT} ${name} %{B-}"
+						;;
+					L*)
+						wm_infos="$wm_infos ${name}"
+						;;
+				esac
+				shift
+			done
+			;;
+	esac
+	printf "%s\n" "%{l}${wm_infos}%{c}${title}%{r}$audio | $network | ${sys_infos}"
+done \
+	| lemonbar \
+		-g x10 \
+		-f "$ICON" \
+		-f "$FONT" \
+		-F "$COLOR_FOREGROUND" \
+		-B "$COLOR_BACKGROUND" &
+
+wait
