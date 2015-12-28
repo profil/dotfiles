@@ -82,7 +82,7 @@ cat "$PANEL_FIFO" \
 			fi
 			;;
 		T*)
-			title="$(xprop -id ${line#?} WM_NAME | sed -un 's/.*"\(.*\)"/\1/p')"
+			title="${line#?}"
 			;;
 		W*)
 			# bspwm internal state
