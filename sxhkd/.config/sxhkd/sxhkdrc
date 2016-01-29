@@ -98,9 +98,12 @@ XF86MonBrightnessUp
 	xbacklight -inc 10
 
 super + section
-	xdotool search --onlyvisible --classname scratchpad windowunmap \
-	|| xdotool search --classname scratchpad windowmap \
-	|| st -c scratchpad -g 160x30+218+100 &
+	xdotool search --onlyvisible --classname scratchpad windowunmap ; \
+	or xdotool search --classname scratchpad windowmap ; \
+	or st -c scratchpad -g 160x30+218+100 &
+#	xdotool search --onlyvisible --classname scratchpad windowunmap \
+#	|| xdotool search --classname scratchpad windowmap \
+#	|| st -c scratchpad -g 160x30+218+100 &
 
 # make sxhkd reload its configuration files:
 super + Escape
