@@ -27,8 +27,8 @@ super + {o,i}
 super + y
 	bspc window -w last.manual
 
-super + m
-	bspc window -s biggest
+# super + m
+# 	bspc window -s biggest
 
 super + {_,shift + }{h,j,k,l}
 	bspc window -{f,s} {left,down,up,right}
@@ -39,8 +39,8 @@ super + {_,shift + }c
 super + {comma,period}
 	bspc desktop -C {backward,forward}
 
-super + bracket{left,right}
-	bspc desktop -f {prev,next}
+super + {n,m}
+	bspc monitor -f {prev,next}
 
 super + ctrl + {h,j,k,l}
 	bspc window -p {left,down,up,right}
@@ -58,7 +58,7 @@ super + ctrl + {1-9}
 	bspc window -r 0.{1-9}
 
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,window -d} ^{1-9,10}
+	bspc {desktop -f,window -d} focused:\^{1-9,10}
 
 ~button1
 	bspc pointer -g focus
@@ -109,6 +109,3 @@ super + section
 super + Escape
 	pkill -USR1 -x sxhkd
 
-	urxvt
-	urxvt
-	urxvt
