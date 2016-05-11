@@ -2,63 +2,60 @@ super + alt + Escape
 	bspc quit
 
 super + w
-	bspc window -c
+	bspc node -c
 
-super + t
+super + m
 	bspc desktop -l next
 
 super + b
 	bspc desktop -B
 
-super + {s,f,p}
-	bspc window -t {floating,fullscreen,pseudo_tiled}
+super + {t,s,f,p}
+	bspc node -t {tiled,floating,fullscreen,pseudo_tiled}
 
 super + {grave,Tab}
-	bspc {window,desktop} -f last
+	bspc {node,desktop} -f last
 
 super + apostrophe
-	bspc window -s last
+	bspc node -s last
 
 super + {o,i}
 	bspc control --record-history off; \
-	bspc window {older,newer} -f; \
+	bspc node {older,newer} -f; \
 	bspc control --record-history on
 
 super + y
-	bspc window -w last.manual
-
-# super + m
-# 	bspc window -s biggest
+	bspc node -w last.manual
 
 super + {_,shift + }{h,j,k,l}
-	bspc window -{f,s} {left,down,up,right}
+	bspc node -{f,s} {west,south,north,east}
 
 super + {_,shift + }c
-	bspc window -f {next,prev}
+	bspc node -f {next,prev}
 
 super + {comma,period}
 	bspc desktop -C {backward,forward}
 
 super + {_,shift +}{n,m}
-	bspc {monitor -f,window -m} {prev,next}
+	bspc {monitor -f,node -m} {prev,next}
 
 super + ctrl + {h,j,k,l}
-	bspc window -p {left,down,up,right}
+	bspc node -p {west,south,north,east}
 
 super + ctrl + {_,shift + }space
-	bspc {window -p cancel,desktop -c}
+	bspc {node -p cancel,desktop -c}
 
 super + alt + {h,j,k,l}
-	bspc window -e {left -10,down +10,up -10,right +10}
+	bspc node {@west -r -10,@south -r +10,@north -r -10,@east -r +10}
 
 super + alt + shift + {h,j,k,l}
-	bspc window -e {right -10,up +10,down -10,left +10}
+	bspc node {@east -r -10,@north -r +10,@south -r -10,@west -r +10}
 
 super + ctrl + {1-9}
-	bspc window -r 0.{1-9}
+	bspc node -r 0.{1-9}
 
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,window -d} focused:\^{1-9,10}
+	bspc {desktop -f,node -d} focused:\^{1-9,10}
 
 ~button1
 	bspc pointer -g focus
@@ -101,9 +98,6 @@ super + section
 	xdotool search --onlyvisible --classname scratchpad windowunmap ; \
 	or xdotool search --classname scratchpad windowmap ; \
 	or st -c scratchpad -g 160x30+218+100 &
-#	xdotool search --onlyvisible --classname scratchpad windowunmap \
-#	|| xdotool search --classname scratchpad windowmap \
-#	|| st -c scratchpad -g 160x30+218+100 &
 
 # make sxhkd reload its configuration files:
 super + Escape

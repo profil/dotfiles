@@ -4,10 +4,10 @@ xsetroot -cursor_name left_ptr &
 sxhkd &
 /home/profil/.config/bspwm/panel &
 
-bspc rule -a scratchpad sticky=on floating=on
+bspc rule -a st-256color:scratchpad sticky=on state=floating
 
-bspc config border_width 2
-bspc config window_gap 3
+bspc config border_width 1
+bspc config window_gap 2
 bspc config borderless_monocle true
 bspc config gapless_monocle true
 bspc config focus_by_distance true

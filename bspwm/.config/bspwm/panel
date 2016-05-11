@@ -21,7 +21,7 @@ COLOR_URGENT="#ffe84f4f"
 mkfifo "$PANEL_FIFO"
 
 bspc config top_padding 10
-bspc control --subscribe > "$PANEL_FIFO" &
+bspc subscribe > "$PANEL_FIFO" &
 xtitle -sf 'T%s' > "$PANEL_FIFO" &
 stdbuf -oL alsactl monitor | sed -un 's/.*/A/p' > "$PANEL_FIFO" &
 iw event | sed -un 's/.*\(connected\).*/N/p' > "$PANEL_FIFO" &
