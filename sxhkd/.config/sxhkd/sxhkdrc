@@ -1,4 +1,4 @@
-super + alt + Escape
+super + shift + q
 	bspc quit
 
 super + w
@@ -7,43 +7,23 @@ super + w
 super + m
 	bspc desktop -l next
 
-super + b
-	bspc desktop -B
-
 super + {t,s,f,p}
-	bspc node -t {tiled,floating,fullscreen,pseudo_tiled}
+	bspc node -t ~{tiled,floating,fullscreen,pseudo_tiled}
 
-super + {grave,Tab}
-	bspc {node,desktop} -f last
-
-super + apostrophe
-	bspc node -s last
-
-super + {o,i}
-	bspc control --record-history off; \
-	bspc node {older,newer} -f; \
-	bspc control --record-history on
-
-super + y
-	bspc node -w last.manual
+super + Tab
+	bspc desktop -f last.local
 
 super + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+	bspc node -{f,s} {west,south,north,east}.local
 
 super + {_,shift + }c
 	bspc node -f {next,prev}
 
-super + {comma,period}
-	bspc desktop -C {backward,forward}
-
-super + {_,shift +}{n,m}
+super + {_, shift +}{comma,period}
 	bspc {monitor -f,node -m} {prev,next}
 
 super + ctrl + {h,j,k,l}
-	bspc node -p {west,south,north,east}
-
-super + ctrl + {_,shift + }space
-	bspc {node -p cancel,desktop -c}
+	bspc node -p ~{west,south,north,east}
 
 super + alt + {h,j,k,l}
 	bspc node {@west -r -10,@south -r +10,@north -r -10,@east -r +10}
@@ -52,10 +32,13 @@ super + alt + shift + {h,j,k,l}
 	bspc node {@east -r -10,@north -r +10,@south -r -10,@west -r +10}
 
 super + ctrl + {1-9}
-	bspc node -r 0.{1-9}
+	bspc node -o 0.{1-9}
 
 super + {_,shift + }{1-9,0}
 	bspc {desktop -f,node -d} focused:\^{1-9,10}
+
+super + {minus,plus}
+	bspc config -d focused window_gap (math (bspc config -d focused window_gap) {-,+} 1)
 
 ~button1
 	bspc pointer -g focus
@@ -97,7 +80,7 @@ XF86MonBrightnessUp
 super + section
 	xdotool search --onlyvisible --classname scratchpad windowunmap ; \
 	or xdotool search --classname scratchpad windowmap ; \
-	or st -c scratchpad -g 160x30+218+100 &
+	or st -n scratchpad -g 160x30+218+100 &
 
 # make sxhkd reload its configuration files:
 super + Escape
