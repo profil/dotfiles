@@ -2,7 +2,7 @@
 
 xsetroot -cursor_name left_ptr &
 sxhkd &
-/home/profil/.config/bspwm/panel &
+#/home/profil/.config/bspwm/panel &
 
 bspc rule -a st-256color:scratchpad sticky=on state=floating
 
