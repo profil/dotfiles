@@ -63,13 +63,13 @@ super + space
 	dmenu_run
 
 XF86AudioRaiseVolume
-	amixer set Master 5+
+	pactl set-sink-volume 0 +5%
 
 XF86AudioLowerVolume
-	amixer set Master 5-
+	pactl set-sink-volume 0 -5%
 
 XF86AudioMute
-	amixer set Master toggle
+	pactl set-sink-mute 0 toggle
 
 XF86MonBrightnessDown
 	xbacklight -dec 10
@@ -85,4 +85,3 @@ super + section
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
-
