@@ -10,6 +10,7 @@ import XMonad.Layout.PerWorkspace
 import XMonad.Layout.NoBorders
 import XMonad.Layout.SimpleFloat
 import XMonad.Util.Scratchpad
+import XMonad.Util.Cursor
 
 import XMonad.Prompt
 import XMonad.Prompt.Theme
@@ -24,6 +25,7 @@ myConfig = ewmh defaultConfig
    borderWidth = 2,
    normalBorderColor = "#343C48",
    focusedBorderColor = "#6986a0",
+   startupHook = setDefaultCursor xC_left_ptr,
    workspaces = myWorkspaces,
    layoutHook = myLayouts,
    keys = keys defaultConfig <+> myKeys,
