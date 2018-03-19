@@ -32,8 +32,10 @@ myConfig = ewmh defaultConfig
 
 myWorkspaces = ["web", "steam", "other"]
 
-myLayouts = onWorkspace "steam" simpleFloat $
-            smartSpacing 10 $ Tall 1 (3/100) (3/5) ||| noBorders Full
+myLayouts = onWorkspace "steam"
+            simpleFloat $
+            smartSpacing 10 $
+            smartBorders $ Tall 1 (3/100) (3/5) ||| Full
 
 myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList
   [((modMask, xK_section), scratchpadSpawnActionCustom "alacritty -d 0 0 -t scratchpad"),
