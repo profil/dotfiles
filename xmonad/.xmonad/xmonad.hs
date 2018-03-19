@@ -25,7 +25,7 @@ myConfig = ewmh defaultConfig
    borderWidth = 2,
    normalBorderColor = "#343C48",
    focusedBorderColor = "#6986a0",
-   startupHook = setDefaultCursor xC_left_ptr,
+   startupHook = setDefaultCursor xC_left_ptr >> addEWMHFullscreen,
    workspaces = myWorkspaces,
    layoutHook = myLayouts,
    keys = keys defaultConfig <+> myKeys,
@@ -51,3 +51,15 @@ myManageHook = composeAll
    className =? "dota2" --> doIgnore,
    className =? "Pavucontrol" --> doCenterFloat,
    scratchpadManageHook (W.RationalRect 0.2 0.2 0.6 0.6)]
+
+-- Fix broken firefox fullscreen
+addEWMHFullscreen = do
+  wms <- getAtom "_NET_WM_STATE"
+  wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
+  withDisplay $ \display -> do
+    rootWindow <- asks theRoot
+    supported <- getAtom "_NET_SUPPORTED"
+    atom <- getAtom "ATOM"
+    liftIO $
+      changeProperty32 display rootWindow supported atom
+        propModeAppend [fromIntegral wms, fromIntegral wfs]
