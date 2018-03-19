@@ -39,8 +39,8 @@ myLayouts = onWorkspace "steam"
             smartSpacing 10 $
             smartBorders $ Tall 1 (3/100) (3/5) ||| Full
 
-myKeys conf@(XConfig {XMonad.modMask = modMask}) = M.fromList
-  [((modMask, xK_section), scratchpadSpawnActionCustom "alacritty -d 0 0 -t scratchpad"),
+myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList
+  [((modm, xK_section), scratchpadSpawnActionCustom "alacritty -d 0 0 -t scratchpad"),
    ((0, xF86XK_AudioRaiseVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%"),
    ((0, xF86XK_AudioLowerVolume), spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%"),
    ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")]
