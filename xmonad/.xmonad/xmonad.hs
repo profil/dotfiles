@@ -19,7 +19,7 @@ import Graphics.X11.ExtraTypes.XF86
 
 main = xmonad =<< xmobar myConfig
 
-myConfig = ewmh defaultConfig
+myConfig = ewmh def
   {terminal = "alacritty",
    modMask = mod4Mask,
    borderWidth = 2,
@@ -28,9 +28,9 @@ myConfig = ewmh defaultConfig
    startupHook = setDefaultCursor xC_left_ptr >> addEWMHFullscreen,
    workspaces = myWorkspaces,
    layoutHook = myLayouts,
-   keys = keys defaultConfig <+> myKeys,
-   manageHook = manageHook defaultConfig <+> myManageHook,
-   handleEventHook = handleEventHook defaultConfig <+> fullscreenEventHook}
+   keys = keys def <+> myKeys,
+   manageHook = manageHook def <+> myManageHook,
+   handleEventHook = handleEventHook def <+> fullscreenEventHook}
 
 myWorkspaces = ["web", "steam", "other"]
 
