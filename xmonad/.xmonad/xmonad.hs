@@ -11,7 +11,8 @@ import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.Spacing
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.NoBorders
-import XMonad.Layout.SimpleFloat
+import XMonad.Layout.SimplestFloat
+
 import XMonad.Util.Scratchpad
 import XMonad.Util.Cursor
 
@@ -37,10 +38,10 @@ myConfig = ewmh def
 
 myWorkspaces = ["web", "steam", "other"]
 
-myLayouts = onWorkspace "steam"
-            simpleFloat $
-            smartSpacing 10 $
-            smartBorders $ Tall 1 (3/100) (3/5) ||| Full
+myLayouts = onWorkspace "steam" (noBorders simplestFloat) $
+            spacingWithEdge 5 $
+            smartBorders $
+            Tall 1 (3/100) (3/5) ||| Full
 
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList
   [((modm, xK_section), scratchpadSpawnActionCustom "alacritty -d 0 0 -t scratchpad"),
