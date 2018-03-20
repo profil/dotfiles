@@ -5,9 +5,11 @@ import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
 import XMonad
+
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
+
 import XMonad.Layout.Spacing
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.NoBorders
@@ -15,9 +17,6 @@ import XMonad.Layout.SimplestFloat
 
 import XMonad.Util.Scratchpad
 import XMonad.Util.Cursor
-
-import XMonad.Prompt
-import XMonad.Prompt.Theme
 
 import Graphics.X11.ExtraTypes.XF86
 
