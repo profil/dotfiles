@@ -1,3 +1,6 @@
+import Data.Maybe
+import Control.Monad
+
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
@@ -52,14 +55,16 @@ myManageHook = composeAll
    className =? "Pavucontrol" --> doCenterFloat,
    scratchpadManageHook (W.RationalRect 0.2 0.2 0.6 0.6)]
 
--- Fix broken firefox fullscreen
-addEWMHFullscreen = do
+addNETSupported x = withDisplay $ \dpy -> do
+  r               <- asks theRoot
+  a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
+  a               <- getAtom "ATOM"
+  liftIO $ do
+    sup <- (join . maybeToList) <$> getWindowProperty32 dpy a_NET_SUPPORTED r
+    when (fromIntegral x `notElem` sup) $
+      changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
+
+addEWMHFullscreen   = do
   wms <- getAtom "_NET_WM_STATE"
   wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
-  withDisplay $ \display -> do
-    rootWindow <- asks theRoot
-    supported <- getAtom "_NET_SUPPORTED"
-    atom <- getAtom "ATOM"
-    liftIO $
-      changeProperty32 display rootWindow supported atom
-        propModeAppend [fromIntegral wms, fromIntegral wfs]
+  mapM_ addNETSupported [wms, wfs]
