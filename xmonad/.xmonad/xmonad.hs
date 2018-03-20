@@ -50,10 +50,11 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList
    ((0, xF86XK_AudioMute), spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")]
 
 myManageHook = composeAll
-  [className =? "hl2_linux" --> doShift "steam",
-   className =? "Steam" --> doShift "steam",
-   className =? "dota2" --> doIgnore,
+  [className =? "Steam" --> doShift "steam",
    className =? "Pavucontrol" --> doCenterFloat,
+   className =? "dota2" --> doCenterFloat,
+   className =? "mpv" --> doCenterFloat,
+   className =? "Xmessage" --> doCenterFloat,
    scratchpadManageHook (W.RationalRect 0.2 0.2 0.6 0.6)]
 
 addNETSupported x = withDisplay $ \dpy -> do
