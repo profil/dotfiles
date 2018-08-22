@@ -95,8 +95,7 @@ hc keybind $Mod-space cycle_layout +1 vertical horizontal max vertical grid
 
 # focus
 hc keybind $Mod-BackSpace   cycle_monitor
-hc keybind $Mod-Tab         cycle_all +1
-hc keybind $Mod-Shift-Tab   cycle_all -1
+hc keybind $Mod-Tab         use_previous
 hc keybind $Mod-c cycle
 hc keybind $Mod-i jumpto urgent
 
