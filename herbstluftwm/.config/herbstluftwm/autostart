@@ -109,6 +109,7 @@ hc mousebind $Mod-Button3 resize
 hc set focus_follows_mouse 1
 hc set mouse_recenter_gap 0
 hc set always_show_frame 1
+hc set auto_detect_monitors 1
 
 # theme
 hc attr theme.tiling.reset 1
