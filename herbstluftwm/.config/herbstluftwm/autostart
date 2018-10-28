@@ -47,8 +47,7 @@ hc keybind $Mod-Shift-l     shift right
 # create an empty frame at the specified direction
 hc keybind $Mod-u       split   bottom  0.5
 hc keybind $Mod-o       split   right   0.5
-# let the current frame explode into subframes
-hc keybind $Mod-Control-space split explode
+hc keybind $Mod-r remove
 
 # resizing frames
 resizestep=0.05
@@ -87,17 +86,15 @@ hc keybind $Mod-period use_index +1 --skip-visible
 hc keybind $Mod-comma  use_index -1 --skip-visible
 
 # layouting
-hc keybind $Mod-r remove
 hc keybind $Mod-s floating toggle
 hc keybind $Mod-f fullscreen toggle
 hc keybind $Mod-p pseudotile toggle
-hc keybind $Mod-space cycle_layout +1 vertical horizontal max vertical grid
+hc keybind $Mod-space cycle_layout
 
 # focus
 hc keybind $Mod-BackSpace   cycle_monitor
 hc keybind $Mod-Tab         use_previous
 hc keybind $Mod-c cycle
-hc keybind $Mod-i jumpto urgent
 
 # mouse
 hc mouseunbind --all
