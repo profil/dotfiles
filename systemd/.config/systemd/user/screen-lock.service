@@ -1,7 +1,9 @@
 [Unit]
 Description=Lock X session on suspend
+Before=sleep.target
 
 [Service]
+User=%I
 Environment=DISPLAY=:0
 ExecStartPre=/usr/bin/xset dpms force suspend
 ExecStart=/usr/bin/xtrlock -b
