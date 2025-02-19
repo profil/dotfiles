@@ -353,7 +353,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
   callback = function()
     local line = vim.fn.line("'\"")
     if (vim.bo.filetype ~= "commit" or vim.bo.filetype ~= "rebase") and line > 0 and line <= vim.fn.line("$") then
-      vim.api.nvim_exec("normal! g'\"", false)
+      vim.api.nvim_exec2("normal! g'\"", {})
     end
   end,
   pattern = "*",
