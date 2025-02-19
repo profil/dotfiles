@@ -262,6 +262,32 @@ require("lazy").setup({
       }
     end,
   },
+
+  {
+    "zk-org/zk-nvim",
+    keys = {
+      { "<leader>zn", "<cmd>ZkNew { title = vim.fn.input('Title: ') }<cr>" },
+      { "<leader>zo", "<cmd>ZkNotes { sort = { 'modified' } }<cr>" },
+      { "<leader>zf", "<cmd>ZkNotes { sort = { 'modified' }, match = { vim.fn.input('Search: ') } }<cr>" },
+    },
+    config = function()
+      require("zk").setup({
+        picker = "telescope",
+
+        lsp = {
+          config = {
+            cmd = { "zk", "lsp" },
+            name = "zk",
+          },
+        },
+
+        auto_attach = {
+          enabled = true,
+          filetypes = { "markdown" },
+        },
+      })
+    end
+  },
 }, {})
 
 -- [[ Setting options ]]
